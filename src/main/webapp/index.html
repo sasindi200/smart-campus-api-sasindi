@@ -4,10 +4,516 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
 -->
 <!DOCTYPE html>
-<html>
-<head><title>SmartCampus API</title></head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCampusAPI — Postman Testing</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --white: #ffffff;
+    --border: #e2e0da;
+    --text: #1a1a1a;
+    --muted: #888580;
+    --get: #166534;
+    --get-bg: #dcfce7;
+    --post: #1e40af;
+    --post-bg: #dbeafe;
+    --del: #991b1b;
+    --del-bg: #fee2e2;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --code-bg: #1e1e2e;
+    --code-text: #cdd6f4;
+    --code-key: #89b4fa;
+    --code-str: #a6e3a1;
+    --code-num: #fab387;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--text);
+  }
+
+  .header h1 {
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .header-sub {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .base-url {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--code-bg);
+    color: #a6e3a1;
+    padding: 6px 14px;
+    border-radius: 6px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Request card */
+  .req-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .req-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+
+  .method {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    min-width: 52px;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .get  { background: var(--get-bg);  color: var(--get); }
+  .post { background: var(--post-bg); color: var(--post); }
+  .del  { background: var(--del-bg);  color: var(--del); }
+
+  .req-url {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .req-desc {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Body block */
+  .body-block {
+    padding: 14px 18px;
+    background: var(--white);
+  }
+
+  .body-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  pre.json {
+    background: var(--code-bg);
+    border-radius: 7px;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--code-text);
+    overflow-x: auto;
+  }
+
+  .k { color: var(--code-key); }
+  .s { color: var(--code-str); }
+  .n { color: var(--code-num); }
+  .p { color: #6c7086; }
+
+  /* Expected block */
+  .expected-block {
+    padding: 10px 18px;
+    background: #fafaf8;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .exp-label { color: var(--muted); }
+
+  .status {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .s2xx { background: #dcfce7; color: #166534; }
+  .s4xx { background: #fef9c3; color: #854d0e; }
+  .s403r { background: #fee2e2; color: #991b1b; }
+
+  /* Headers note */
+  .header-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: #fffdf7;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .header-note span { color: var(--post); font-weight: 600; }
+</style>
+</head>
 <body>
-    <h1>SmartCampus REST API is Running</h1>
-    <p>Visit the <a href="api/v1/">Discovery Endpoint</a> to start.</p>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>SmartCampusAPI — Postman Testing</h1>
+    <div class="header-sub">Apache Tomcat · JDK 17 · NetBeans 24 · JAX-RS / Jersey</div>
+    <div class="base-url">Base URL: http://localhost:8080/api/v1</div>
+  </div>
+
+  <!-- ─── GET REQUESTS ─── -->
+  <div class="section">
+    <div class="section-label">GET Requests</div>
+
+    <!-- Discovery -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/</span>
+        <span class="req-desc">Discovery</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— returns version, links</span>
+      </div>
+    </div>
+
+    <!-- Get all rooms -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms</span>
+        <span class="req-desc">All rooms</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— returns array of rooms</span>
+      </div>
+    </div>
+
+    <!-- Get room by ID -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms/1</span>
+        <span class="req-desc">Room by ID</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— single room object &nbsp;|&nbsp; invalid id →</span>
+        <span class="status s4xx">404</span>
+      </div>
+    </div>
+
+    <!-- Get all sensors -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors</span>
+        <span class="req-desc">All sensors</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— returns array of sensors</span>
+      </div>
+    </div>
+
+    <!-- Get sensors by type -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors?type=temperature</span>
+        <span class="req-desc">Filter by type</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— filtered sensor list</span>
+      </div>
+    </div>
+
+    <!-- Get readings -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method get">GET</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors/S1/readings</span>
+        <span class="req-desc">Sensor readings</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">200 OK</span>
+        <span>— array of readings &nbsp;|&nbsp; unknown sensor →</span>
+        <span class="status s4xx">404</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── POST REQUESTS ─── -->
+  <div class="section">
+    <div class="section-label">POST Requests</div>
+
+    <!-- POST Room -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms</span>
+        <span class="req-desc">Create room</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"1"</span><span class="p">,</span>
+  <span class="k">"name"</span><span class="p">:</span> <span class="s">"Lab A"</span><span class="p">,</span>
+  <span class="k">"capacity"</span><span class="p">:</span> <span class="n">40</span><span class="p">,</span>
+  <span class="k">"sensorIds"</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">201 Created</span>
+        <span>— returns created room</span>
+      </div>
+    </div>
+
+    <!-- POST Sensor (ACTIVE) -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors</span>
+        <span class="req-desc">Create sensor (ACTIVE)</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"S1"</span><span class="p">,</span>
+  <span class="k">"type"</span><span class="p">:</span> <span class="s">"temperature"</span><span class="p">,</span>
+  <span class="k">"status"</span><span class="p">:</span> <span class="s">"ACTIVE"</span><span class="p">,</span>
+  <span class="k">"currentValue"</span><span class="p">:</span> <span class="n">0</span><span class="p">,</span>
+  <span class="k">"roomId"</span><span class="p">:</span> <span class="s">"1"</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">201 Created</span>
+        <span>— returns created sensor</span>
+      </div>
+    </div>
+
+    <!-- POST Sensor (MAINTENANCE) -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors</span>
+        <span class="req-desc">Create sensor (MAINTENANCE)</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"S3"</span><span class="p">,</span>
+  <span class="k">"type"</span><span class="p">:</span> <span class="s">"temperature"</span><span class="p">,</span>
+  <span class="k">"status"</span><span class="p">:</span> <span class="s">"MAINTENANCE"</span><span class="p">,</span>
+  <span class="k">"currentValue"</span><span class="p">:</span> <span class="n">0</span><span class="p">,</span>
+  <span class="k">"roomId"</span><span class="p">:</span> <span class="s">"1"</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">201 Created</span>
+      </div>
+    </div>
+
+    <!-- POST Sensor invalid roomId -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors</span>
+        <span class="req-desc">Invalid roomId → 422</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"S2"</span><span class="p">,</span>
+  <span class="k">"type"</span><span class="p">:</span> <span class="s">"humidity"</span><span class="p">,</span>
+  <span class="k">"status"</span><span class="p">:</span> <span class="s">"ACTIVE"</span><span class="p">,</span>
+  <span class="k">"currentValue"</span><span class="p">:</span> <span class="n">0</span><span class="p">,</span>
+  <span class="k">"roomId"</span><span class="p">:</span> <span class="s">"999"</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s4xx">422 Unprocessable Entity</span>
+        <span>— room 999 does not exist</span>
+      </div>
+    </div>
+
+    <!-- POST reading to ACTIVE sensor -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors/S1/readings</span>
+        <span class="req-desc">Add reading (ACTIVE)</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"R1"</span><span class="p">,</span>
+  <span class="k">"timestamp"</span><span class="p">:</span> <span class="n">1713780000</span><span class="p">,</span>
+  <span class="k">"value"</span><span class="p">:</span> <span class="n">26.5</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">201 Created</span>
+        <span>— returns reading object</span>
+      </div>
+    </div>
+
+    <!-- POST reading to MAINTENANCE sensor -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method post">POST</span>
+        <span class="req-url">http://localhost:8080/api/v1/sensors/S3/readings</span>
+        <span class="req-desc">Add reading (MAINTENANCE) → 403</span>
+      </div>
+      <div class="header-note">Header: <span>Content-Type</span> &nbsp;→&nbsp; application/json</div>
+      <div class="body-block">
+        <div class="body-label">Body — raw JSON</div>
+        <pre class="json"><span class="p">{</span>
+  <span class="k">"id"</span><span class="p">:</span> <span class="s">"R2"</span><span class="p">,</span>
+  <span class="k">"timestamp"</span><span class="p">:</span> <span class="n">1713780000</span><span class="p">,</span>
+  <span class="k">"value"</span><span class="p">:</span> <span class="n">30.2</span>
+<span class="p">}</span></pre>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s403r">403 Forbidden</span>
+        <span>— sensor is in MAINTENANCE</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── DELETE REQUESTS ─── -->
+  <div class="section">
+    <div class="section-label">DELETE Requests</div>
+
+    <!-- DELETE empty room -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method del">DELETE</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms/1</span>
+        <span class="req-desc">Delete room (no sensors)</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s2xx">204 No Content</span>
+        <span>— room deleted</span>
+      </div>
+    </div>
+
+    <!-- DELETE room with sensors -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method del">DELETE</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms/1</span>
+        <span class="req-desc">Delete room (has sensors)</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s4xx">409 Conflict</span>
+        <span>— room still has sensors attached</span>
+      </div>
+    </div>
+
+    <!-- DELETE non-existent room -->
+    <div class="req-card">
+      <div class="req-header">
+        <span class="method del">DELETE</span>
+        <span class="req-url">http://localhost:8080/api/v1/rooms/INVALID</span>
+        <span class="req-desc">Delete room (not found)</span>
+      </div>
+      <div class="expected-block">
+        <span class="exp-label">Expected:</span>
+        <span class="status s4xx">404 Not Found</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>
