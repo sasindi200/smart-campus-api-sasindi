@@ -488,3 +488,7 @@ This project is intentionally constrained by the coursework requirements:
 ## Conclusion
 
 This project implements a fully functional Smart Campus RESTful API using JAX-RS and Jersey, covering resource modelling, nested sub-resources, query-based filtering, referential integrity validation, structured error handling through exception mappers, and cross-cutting logging via filters. The design adheres to RESTful principles and the coursework requirements while remaining readable and maintainable.
+
+Created By,
+Sasindi Linasha Korala
+w2120469
